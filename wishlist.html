@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Finder - Wishlist</title>
+    <link rel="icon" type="image/x-icon" href="images/logo.png">
+    <style>
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #fce4ec;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 80px; 
+            padding-bottom: 80px; 
+            min-height: 100vh;
+        }
+
+        
+        .header, .footer {
+            background-color: #d81b60;
+            color: #ffffff;
+            padding: 15px 0;
+            width: 100%;
+            position: fixed;
+            left: 0;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .header {
+            top: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .footer {
+            bottom: 0;
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content, .footer-content {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-title img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo-title h1 {
+            font-family: 'Times New Roman', Times, serif;
+            color: #fff;
+            font-size: 1.8em;
+            font-weight: bold;
+            text-decoration: underline;
+            text-decoration-color: #004d99;
+            text-decoration-thickness: 3px;
+            text-underline-offset: 5px;
+        }
+
+        
+        .nav-items {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-items a, #quitButton {
+            font-weight: bold;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1em;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            background-color: transparent;
+            border: 2px solid transparent;
+        }
+
+        .nav-items a:hover, #quitButton:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+            color: #ffffff;
+        }
+
+        /* Wishlist Content */
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wishlist-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+            align-items: center; /* Center items vertically */
+        }
+
+        .wishlist-item img {
+            max-width: 50px;
+            border-radius: 5px;
+        }
+
+        .button {
+            padding: 8px 15px;
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px 5px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #c2185b;
+        }
+
+        /* Quantity Controls */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        /* Footer Content */
+        .footer-content {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer h1, .footer h3 {
+            margin: 5px 0;
+            font-size: 1em;
+            color: #ffd1dc;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content, .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-items {
+                gap: 10px;
+                flex-direction: column;
+            }
+
+            .logo-title h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-title">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="Beauty Finder Logo">
+                    <h1>Beauty Finder<span>&reg;</span></h1>
+                </a>
+            </div>
+            <nav class="nav-items">
+                <a href="location.html">Product</a>
+                <a href=".html">About</a>
+                <a href="favourite.html">Wishlist</a>
+                <button id="quitButton" onclick="quitApp()">Quit</button>
+            </nav>
+        </div>
+    </header>
+
+    
+    <div class="container">
+        <h1>Your Wishlist</h1>
+        <div id="wishlistContainer">Loading wishlist...</div>
+        <button class="button" onclick="clearWishlist()">Clear Wishlist</button>
+        <a href="favourite.html" class="button">Feedback</a> 
+
+    
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Your Trusted Source for All Things Beauty</h3>
+            <h3>Empowering You with the Best Beauty Insights</h3>
+        </div>
+    </footer>
+
+    <script>
+        function loadWishlist() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            const container = document.getElementById('wishlistContainer');
+            container.innerHTML = '';
+
+            if (wishlist.length === 0) {
+                container.innerHTML = '<p>Your wishlist is empty.</p>';
+            } else {
+                wishlist.forEach((item, index) => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'wishlist-item';
+                    itemDiv.innerHTML = `
+                        <div>
+                            <img src="${item.image}" alt="${item.name}">
+                            <p><strong>${item.name}</strong> - ${item.brand} - ${item.type} - $${item.price}</p>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="button" onclick="increaseQuantity(${index})">+</button>
+                            <span class="quantity">${item.quantity || 1}</span>
+                            <button class="button" onclick="decreaseQuantity(${index})">-</button>
+                            <button class="button" onclick="removeFromWishlist(${index})">Remove</button>
+                        </div>
+                    `;
+                    container.appendChild(itemDiv);
+                });
+            }
+        }
+
+        function increaseQuantity(index) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist[index].quantity = (wishlist[index].quantity || 1) + 1;
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            loadWishlist();
+        }
+
+        function decreaseQuantity(index) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            if (wishlist[index].quantity > 1) {
+                wishlist[index].quantity -= 1;
+                localStorage.setItem('wishlist', JSON.stringify(wishlist));
+                loadWishlist();
+            }
+        }
+
+        function removeFromWishlist(index) {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+            wishlist.splice(index, 1);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            loadWishlist();
+        }
+
+        function clearWishlist() {
+            localStorage.removeItem('wishlist');
+            loadWishlist();
+        }
+
+        function quitApp() {
+            window.close();
+        }
+
+        window.onload = loadWishlist;
+    </script>
+</body>
+</html>
